@@ -8,18 +8,19 @@ const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start", // Change "center" to "flex-start"
     alignItems: "center",
     backgroundColor: "#c8dbba",
   },
   text: {
     fontSize: 20,
     marginBottom: 20,
+    fontFamily: "KalamBold",
   },
   shelfImage: {
     width: 500,
     height: 500,
-    marginBottom: -282,
+    marginTop: 165,
     zIndex: -1,
   },
   plantImage: {
@@ -33,6 +34,12 @@ const styles = StyleSheet.create({
   },
   secondRow: {
     top: '58%',
+  },
+  header: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    fontFamily: "KalamBold",
+    
   },
 });
 
@@ -50,6 +57,7 @@ const plantImages = {
 
 function HomeScreen({ navigation }) {
   const [plants, setPlants] = useState([]);
+  const [user, setUser] = useState("");
 
   const getToken = async () => {
     try {
@@ -62,6 +70,28 @@ function HomeScreen({ navigation }) {
     }
   }
 
+  const getUserUsername = async () => {
+    try {
+      const token = await getToken();
+      const response = await fetch("http://192.168.1.44:3000/getUserUsername", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "token": token,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Data:", data);
+      setUser(data.username); // Set the user's username
+    } catch (error) {
+      console.error("Error fetching user's data:", error);
+    }
+  };
   const getPlants = async () => {
     try {
       const token = await getToken();
@@ -89,6 +119,7 @@ function HomeScreen({ navigation }) {
     // Add a focus listener to refetch data when the screen comes into focus
     const unsubscribe = navigation.addListener('focus', () => {
       getPlants();
+      getUserUsername(); // Fetch user data when the screen comes into focus
     });
 
     // Clean up the listener when the component unmounts
@@ -97,7 +128,7 @@ function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-
+      <Text style={styles.header}>{user}'s Nursery</Text> 
       {plants.slice(0, 3).map((plant, index) => (
         <View key={plant._id} style={[styles.plantImage, styles.firstRow, { left: `${(index + .25) * 30}%` }]}>
           <Image source={plantImages[plant.Icon]} style={{ width: 100, height: 100 }} />
