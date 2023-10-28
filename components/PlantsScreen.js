@@ -97,7 +97,8 @@ function PlantsScreen({ navigation }) {
       commonName,
       displayName: nickname,
       age: parseInt(daysOld),
-      icon: String(parseInt(selectedIcon, 10) - 6),
+      // icon: String(parseInt(selectedIcon, 10) - 6),
+      icon: selectedIcon,
     };
 
     const token = await getToken();

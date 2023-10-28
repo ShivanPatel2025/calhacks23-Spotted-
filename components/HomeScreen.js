@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, Image } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dimensions } from 'react-native';
 
-// Get the screen width
 const screenWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
@@ -11,22 +10,47 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#c8dbba", // Set the background color here
+    backgroundColor: "#c8dbba",
   },
   text: {
     fontSize: 20,
     marginBottom: 20,
   },
-  image: {
-    width: 500,  // You can set your desired width
+  shelfImage: {
+    width: 500,
     height: 500,
     marginBottom: -200,
+    zIndex: -1,
+  },
+  plantImage: {
+    width: 100,
+    height: 100,
+    zIndex: 1,
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+  firstRow: {
+    top: '30%',
+  },
+  secondRow: {
+    top: '70%',
   },
 });
 
+const plantImages = {
+  "1": require("../assets/plant-1.png"),
+  "2": require("../assets/plant-2.png"),
+  "3": require("../assets/plant-3.png"),
+  "4": require("../assets/plant-4.png"),
+  "5": require("../assets/plant-5.png"),
+  "6": require("../assets/plant-6.png"),
+  "7": require("../assets/plant-7.png"),
+  "8": require("../assets/plant-8.png"),
+  "9": require("../assets/plant-9.png"),
+};
 
 function HomeScreen({ navigation }) {
-  const [wateringFrequency, setWateringFrequency] = useState(null);
+  const [plants, setPlants] = useState([]);
 
   const getToken = async () => {
     try {
@@ -39,49 +63,57 @@ function HomeScreen({ navigation }) {
     }
   }
 
-  /// Get all plants owned by user
   const getPlants = async () => {
     try {
-      const token = await getToken(); // Using the getToken function you've already provided
-  
+      const token = await getToken();
       const response = await fetch("http://192.168.1.44:3000/getUserPlants", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "token": token, // Pass the token in headers for server to decode
+          "token": token,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const data = await response.json();
-      console.log("User's Plants:", data.plants);
+      setPlants(data.plants);
+      console.log(data.plants)
     } catch (error) {
       console.error("Error fetching user's plants:", error);
     }
   };
-  
+
+  useEffect(() => {
+    getPlants();
+  }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>This is the home to Plantly!</Text>
-      {wateringFrequency ? (
-        <Text>Watering Frequency: {wateringFrequency}</Text>
-      ) : (
-        <Button
-          title="Get Watering Frequency"
-          onPress={fetchWateringFrequency}
-        />
-      )}
       <Button
         title="Go to Details"
         onPress={() => navigation.navigate("Details")}
       />
+
+      {plants.slice(0, 3).map((plant, index) => (
+        <View key={plant._id} style={[styles.plantImage, styles.firstRow, { left: `${(index + 1) * 30}%` }]}>
+          <Image source={plantImages[plant.Icon]} style={{ width: 100, height: 100 }} />
+          <Text>{plant.Icon}</Text>
+        </View>
+      ))}
+
+      {plants.slice(3, 6).map((plant, index) => (
+        <View key={plant._id} style={[styles.plantImage, styles.secondRow, { left: `${(index + 1) * 30}%` }]}>
+          <Image source={plantImages[plant.Icon]} style={{ width: 100, height: 100 }} />
+        </View>
+      ))}
+
       <Image 
         source={require("../assets/HomeShelvingExpanded.png")} 
-        style={styles.image}
+        style={styles.shelfImage}
       />
     </View>
   );
