@@ -59,7 +59,6 @@ function SignupScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleSignup = () => {
-    // Send a POST request to the /signup endpoint with user data
     fetch("http://192.168.1.44:3000/signup", {
       method: "POST",
       headers: {
@@ -69,11 +68,17 @@ function SignupScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle successful signup, you can navigate to the home screen or show a success message.
+        // Check if the response contains an error message
+        if (data.error) {
+          // Handle the duplicate error (username or email already exists)
+          console.error(data.error); // You can display this error message to the user
+        } else {
+          navigation.navigate("Home");
+        }
       })
       .catch((error) => {
         console.error(error);
-        // Handle signup errors here, e.g., duplicate email, invalid data, etc.
+        // Handle other signup errors here
       });
   };
 
@@ -103,7 +108,7 @@ function SignupScreen({ navigation }) {
         <Text style={styles.signupText}>Sign Up</Text>
       </TouchableOpacity>
       <Text style={styles.text}>Already have an account? Log In</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
+      <Button title="Go to Main" onPress={() => navigation.navigate("Main")} />
     </View>
   );
 }

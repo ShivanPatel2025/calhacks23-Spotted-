@@ -107,8 +107,12 @@ function WelcomeScreen({ navigation }) {
           })
             .then((response) => response.json())
             .then((data) => {
-              // Store the token in a secure manner (e.g., AsyncStorage) for future requests.
-              // You can navigate to the home screen here.
+              if (data.error) {
+                console.error(data.error);
+              } else {
+                // If login is successful, navigate to the home screen
+                navigation.navigate("Main"); // Replace 'Home' with the actual name of your home screen
+              }
             })
             .catch((error) => {
               console.error(error);
@@ -122,7 +126,7 @@ function WelcomeScreen({ navigation }) {
 
       {/* Create Account button with navigation to SignupScreen */}
       <Button title="Create Account" onPress={() => navigation.navigate("Signup")} />
-      <Button title="Go to Home" onPress={() => navigation.navigate("Main")} />
+      <Button title="Go to Main" onPress={() => navigation.navigate("Main")} />
     </View>
   );
 }
