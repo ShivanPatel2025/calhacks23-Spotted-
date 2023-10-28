@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     marginBottom: 17,
     padding: 10,
     fontFamily: "Kalam",
-    color: "#DEFCD7",
     fontSize: 28,
   },
   loginButton: {
