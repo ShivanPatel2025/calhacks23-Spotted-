@@ -16,6 +16,7 @@
     "expo": "^49.0.13",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "lottie-ios": "^4.3.3",
     "lottie-react-native": "^6.3.1",
     "mongoose": "^7.6.3",
     "react-native": "0.72.6"

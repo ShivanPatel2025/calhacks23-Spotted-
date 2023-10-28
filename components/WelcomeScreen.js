@@ -4,14 +4,29 @@ import {
   Text,
   TextInput,
   Button,
-  TouchableOpacity, StyleSheet,
+  TouchableOpacity, 
+  StyleSheet,
+  Dimensions,
 } from "react-native";
+import LottieView from "lottie-react-native";
+
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: 'transparent',
+  },
+  background: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width,
+    height,
+    backgroundColor: 'transparent',  // optional
+    transform: [{ scale: 1.5 }]
   },
   titleText: {
     fontSize: 40,
@@ -58,6 +73,13 @@ function WelcomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+        <LottieView
+        source={require("../assets/LeavesFallingLottie.json")}
+        style={styles.background}
+        speed={.7}
+        autoPlay
+        loop
+      />
       <Text style={styles.titleText}>Welcome to Plantly!</Text>
       <TextInput
         style={styles.input}
