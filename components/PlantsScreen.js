@@ -97,7 +97,7 @@ function PlantsScreen({ navigation }) {
       commonName,
       displayName: nickname,
       age: parseInt(daysOld),
-      icon: selectedIcon,
+      icon: String(parseInt(selectedIcon, 10) - 6),
     };
 
     const token = await getToken();
@@ -149,7 +149,7 @@ function PlantsScreen({ navigation }) {
               <Image source={path}
                 style={[
                   styles.icon, 
-                  selectedIcon === path && styles.selectedIcon
+                  selectedIcon === path && styles.selectedIcon,
                 ]}
               />
             </TouchableOpacity>
