@@ -49,20 +49,37 @@ function AppNavigation() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('Welcome');
+      navigation.navigate("Welcome");
     }, 5000);
 
     return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
-    <Stack.Navigator initialRouteName="Loading" headerMode="none">
-      <Stack.Screen name="Main" component={MainTabs} />
-      <Stack.Screen name="Loading" component={LoadingScreen} />
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />
+    <Stack.Navigator initialRouteName="Loading">
+      <Stack.Screen
+        name="Main"
+        component={MainTabs}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Loading"
+        component={LoadingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
+
 
 export default AppNavigation;

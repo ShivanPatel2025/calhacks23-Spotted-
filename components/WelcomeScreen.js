@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     fontFamily: "KalamBold",
   },
   text: {
-    fontSize: 20,
+    fontSize: 23,
     fontWeight: "600",
     width: 332,
     textAlign: "center",
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontFamily: "Kalam",
   },
   clickableText: {
-    fontSize: 20,
+    fontSize: 23,
     fontWeight: "600",
     width: 332,
     textAlign: "center",
@@ -70,9 +70,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#B5DCAB",
     borderRadius: 15,
     width: 332,
-    height: 70,
+    height: 75,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 30,
+    marginBottom: 10,
   },
   loginText: {
     color: "black",
@@ -101,6 +103,7 @@ function WelcomeScreen({ navigation }) {
         placeholder="Username/Email"
         value={userEmail}
         onChangeText={(text) => setUserEmail(text)}
+        placeholderTextColor="#DEFCD7"
       />
       <TextInput
         style={styles.input}
@@ -108,6 +111,7 @@ function WelcomeScreen({ navigation }) {
         secureTextEntry={true} // For hiding the password
         value={password}
         onChangeText={(text) => setPassword(text)}
+        placeholderTextColor="#DEFCD7"
       />
       <TouchableOpacity
         style={styles.loginButton}

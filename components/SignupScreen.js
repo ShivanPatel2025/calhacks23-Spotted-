@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,19 +22,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleText: {
-    fontSize: 40,
+    fontSize: 48,
     fontWeight: "600",
     width: 332,
     textAlign: "center",
-    marginBottom: 70,
-    fontFamily: "Kalam"
+    marginBottom: 60,
+    fontFamily: "KalamBold",
   },
   text: {
-    fontSize: 20,
+    fontSize: 23,
     fontWeight: "600",
     width: 332,
     textAlign: "center",
     marginBottom: 10,
+    fontFamily: "Kalam",
   },
   background: {
     position: "absolute",
@@ -46,35 +48,39 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.5 }],
   },
   clickableText: {
-    fontSize: 20,
+    fontSize: 23,
     fontWeight: "600",
     width: 332,
     textAlign: "center",
     marginBottom: 10,
     color: "#59A475",
+    fontFamily: "Kalam",
   },
   input: {
     width: 332,
     height: 60,
     backgroundColor: "#B5DCAB",
-    borderColor: "gray",
-    borderWidth: 1,
     borderRadius: 15,
-    marginBottom: 10,
+    marginBottom: 15,
     padding: 10,
+    fontFamily: "Kalam",
+    fontSize: 28,
   },
   signupButton: {
     backgroundColor: "#B5DCAB",
     borderRadius: 15,
     width: 332,
-    height: 60,
+    height: 70,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 30,
+    marginBottom: 10,
   },
   signupText: {
     color: "black",
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: "600",
+    fontFamily: "KalamBold",
   },
 });
 
@@ -92,12 +98,14 @@ function SignupScreen({ navigation }) {
       body: JSON.stringify({ username: username, email: userEmail, password }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         // Check if the response contains an error message
         if (data.error) {
           // Handle the duplicate error (username or email already exists)
           console.error(data.error); // You can display this error message to the user
         } else {
+          const token = data.token;
+          await AsyncStorage.setItem("userToken", token);
           navigation.navigate("Main");
         }
       })
@@ -122,12 +130,14 @@ function SignupScreen({ navigation }) {
         placeholder="Username"
         value={username}
         onChangeText={(text) => setUsername(text)}
+        placeholderTextColor="#DEFCD7"
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={userEmail}
         onChangeText={(text) => setUserEmail(text)}
+        placeholderTextColor="#DEFCD7"
       />
       <TextInput
         style={styles.input}
@@ -135,6 +145,7 @@ function SignupScreen({ navigation }) {
         secureTextEntry={true}
         value={password}
         onChangeText={(text) => setPassword(text)}
+        placeholderTextColor="#DEFCD7"
       />
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupText}>Sign Up</Text>
