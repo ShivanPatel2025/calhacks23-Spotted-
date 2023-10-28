@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
       "Common Name": String,
       "Display Name": String,
       "Age": Number,
+      "Icon": String,
       // "Scientific Name": String,
       // "Watering Frequency": String,
       // "Sunlight Preference": String,
@@ -129,9 +130,10 @@ app.post("/addUserPlant", async (req, res) => {
 
   // Create a new plant object
  const newPlant = {
-   "Common Name": req.body.commonName,
-   "Display Name": req.body.displayName,
-   Age: req.body.age,
+  "Common Name": req.body.commonName,
+  "Display Name": req.body.displayName,
+  "Age": req.body.age,
+  "Icon": req.body.icon,
  };
 
   const updatedUser = await User.findOneAndUpdate({ username: userId }, { $push: { plants: newPlant } }, { new: true });

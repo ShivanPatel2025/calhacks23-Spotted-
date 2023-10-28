@@ -73,7 +73,7 @@ function SignupScreen({ navigation }) {
           // Handle the duplicate error (username or email already exists)
           console.error(data.error); // You can display this error message to the user
         } else {
-          navigation.navigate("Home");
+          navigation.navigate("Main");
         }
       })
       .catch((error) => {
