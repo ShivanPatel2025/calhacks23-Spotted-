@@ -32,9 +32,9 @@ const userSchema = new mongoose.Schema({
       "Display Name": String,
       "Age": Number,
       "Icon": String,
-      // "Scientific Name": String,
-      // "Watering Frequency": String,
-      // "Sunlight Preference": String,
+      "Scientific Name": String,
+      "Watering Frequency": String,
+      "Sunlight Preference": String,
     },
   ],
 });
@@ -127,6 +127,9 @@ app.post("/addUserPlant", async (req, res) => {
   const token = req.headers.token; 
   const decodedusername = jwt.decode(token);
   const userId = decodedusername["userId"];
+
+  const plantData = await Plant.findOne({ "Common Name": req.body.commonName });
+  console.log("Plant Data:", plantData);
 
   // Create a new plant object
  const newPlant = {
