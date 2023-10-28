@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     left: 0,
     width,
     height,
+    opacity: 0.5,
     backgroundColor: 'transparent',  // optional
     transform: [{ scale: 1.5 }]
   },
@@ -125,7 +126,7 @@ function WelcomeScreen({ navigation }) {
 
       {/* Create Account button with navigation to SignupScreen */}
       <Button title="Create Account" onPress={() => navigation.navigate("Signup")} />
-      <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
+      <Button title="Go to Home" onPress={() => navigation.navigate("Main")} />
     </View>
   );
 }
