@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     text: {
       fontSize: 60,
       fontWeight: '500',
+      fontFamily: "KalamBold",
     },
   });
 

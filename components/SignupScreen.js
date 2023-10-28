@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     width: 332,
     textAlign: "center",
     marginBottom: 70,
+    fontFamily: "Kalam"
   },
   text: {
     fontSize: 20,

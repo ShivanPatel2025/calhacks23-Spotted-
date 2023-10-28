@@ -31,11 +31,12 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.5 }],
   },
   titleText: {
-    fontSize: 40,
+    fontSize: 48,
     fontWeight: "600",
     width: 332,
     textAlign: "center",
     marginBottom: 70,
+    fontFamily: "KalamBold",
   },
   text: {
     fontSize: 20,
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     width: 332,
     textAlign: "center",
     marginBottom: 70,
+    fontFamily: "Kalam",
   },
   clickableText: {
     fontSize: 20,
@@ -51,29 +53,32 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
     color: "#59A475",
+    fontFamily: "Kalam",
   },
   input: {
     width: 332,
     height: 60,
     backgroundColor: "#B5DCAB",
-    borderColor: "gray",
-    borderWidth: 1,
     borderRadius: 15,
-    marginBottom: 10,
+    marginBottom: 17,
     padding: 10,
+    fontFamily: "Kalam",
+    color: "#DEFCD7",
+    fontSize: 28,
   },
   loginButton: {
     backgroundColor: "#B5DCAB",
     borderRadius: 15,
     width: 332,
-    height: 60,
+    height: 70,
     justifyContent: "center",
     alignItems: "center",
   },
   loginText: {
     color: "black",
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: "600",
+    fontFamily: "KalamBold",
   },
 });
 
@@ -93,7 +98,7 @@ function WelcomeScreen({ navigation }) {
       <Text style={styles.titleText}>Welcome to Plantly!</Text>
       <TextInput
         style={styles.input}
-        placeholder="User/Email"
+        placeholder="Username/Email"
         value={userEmail}
         onChangeText={(text) => setUserEmail(text)}
       />
