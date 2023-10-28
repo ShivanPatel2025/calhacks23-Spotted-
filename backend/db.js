@@ -61,6 +61,19 @@ app.post("/signup", async (req, res) => {
   };
 
   try {
+    // Check if the username already exists
+    const existingUser = await User.findOne({ username: newUser.username });
+    if (existingUser) {
+      return res.status(400).json({ error: "Username already exists." });
+    }
+
+    // Check if the email already exists
+    const existingEmail = await User.findOne({ email: newUser.email });
+    if (existingEmail) {
+      return res.status(400).json({ error: "Email already exists." });
+    }
+
+    // If no duplicates found, insert the new user
     const result = await User.insertMany([newUser]);
     res.status(201).json(result[0]); // Respond with the inserted data or a success message.
     console.log(result);

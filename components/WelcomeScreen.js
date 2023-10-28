@@ -106,8 +106,12 @@ function WelcomeScreen({ navigation }) {
           })
             .then((response) => response.json())
             .then((data) => {
-              // Store the token in a secure manner (e.g., AsyncStorage) for future requests.
-              // You can navigate to the home screen here.
+              if (data.error) {
+                console.error(data.error);
+              } else {
+                // If login is successful, navigate to the home screen
+                navigation.navigate("Home"); // Replace 'Home' with the actual name of your home screen
+              }
             })
             .catch((error) => {
               console.error(error);
