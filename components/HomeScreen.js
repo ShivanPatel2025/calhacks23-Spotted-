@@ -222,13 +222,12 @@ function HomeScreen({ navigation }) {
           <View style={styles.modalView}>
             {selectedPlant && (
               <View>
-                <Text style={styles.modalText}>
-                  Plant Name: {selectedPlant.name}
-                </Text>
-                <Text style={styles.modalText}>
-                  Description: {selectedPlant.description}
-                </Text>
-                {/* Add more plant information here */}
+                <Text style={styles.modalText}>Plant Name: {selectedPlant["Common Name"]}</Text>
+                <Text style={styles.modalText}>Display Name: {selectedPlant["Display Name"]}</Text>
+                <Text style={styles.modalText}>Scientific Name: {selectedPlant["Scientific Name"]}</Text>
+                <Text style={styles.modalText}>Age: {selectedPlant["Age"]}</Text>
+                <Text style={styles.modalText}>Watering Frequency: {selectedPlant["Watering Frequency"]}</Text>
+                <Text style={styles.modalText}>Sunlight Preference: {selectedPlant["Sunlight Preference"]}</Text>
               </View>
             )}
             <Button
