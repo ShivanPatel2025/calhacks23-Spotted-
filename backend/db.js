@@ -137,7 +137,11 @@ app.post("/addUserPlant", async (req, res) => {
   "Display Name": req.body.displayName,
   "Age": req.body.age,
   "Icon": req.body.icon,
+  "Scientific Name": plantData["Scientific Name"],
+  "Watering Frequency": plantData["Watering Frequency"],
+  "Sunlight Preference": plantData["Sunlight Preference"],
  };
+ console.log("New Plant:", newPlant)
 
   const updatedUser = await User.findOneAndUpdate({ username: userId }, { $push: { plants: newPlant } }, { new: true });
     if (updatedUser) {
