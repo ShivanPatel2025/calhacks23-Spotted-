@@ -19,13 +19,12 @@ const styles = StyleSheet.create({
   shelfImage: {
     width: 500,
     height: 500,
-    marginBottom: -200,
+    marginBottom: -282,
     zIndex: -1,
   },
   plantImage: {
     width: 100,
     height: 100,
-    zIndex: 1,
     position: 'absolute',
     alignSelf: 'center',
   },
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
     top: '30%',
   },
   secondRow: {
-    top: '70%',
+    top: '58%',
   },
 });
 
@@ -87,26 +86,26 @@ function HomeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getPlants();
-  }, []);
+    // Add a focus listener to refetch data when the screen comes into focus
+    const unsubscribe = navigation.addListener('focus', () => {
+      getPlants();
+    });
+
+    // Clean up the listener when the component unmounts
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>This is the home to Plantly!</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
-      />
 
       {plants.slice(0, 3).map((plant, index) => (
-        <View key={plant._id} style={[styles.plantImage, styles.firstRow, { left: `${(index + 1) * 30}%` }]}>
+        <View key={plant._id} style={[styles.plantImage, styles.firstRow, { left: `${(index + .25) * 30}%` }]}>
           <Image source={plantImages[plant.Icon]} style={{ width: 100, height: 100 }} />
-          <Text>{plant.Icon}</Text>
         </View>
       ))}
 
       {plants.slice(3, 6).map((plant, index) => (
-        <View key={plant._id} style={[styles.plantImage, styles.secondRow, { left: `${(index + 1) * 30}%` }]}>
+        <View key={plant._id} style={[styles.plantImage, styles.secondRow, { left: `${(index + .25) * 30}%` }]}>
           <Image source={plantImages[plant.Icon]} style={{ width: 100, height: 100 }} />
         </View>
       ))}
