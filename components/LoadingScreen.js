@@ -14,18 +14,20 @@ const styles = StyleSheet.create({
       marginRight: 0, // Adjust the margin to shift the animation to the right
     },
     animation: {
+      marginTop: -50, // Add margin to the animation
       width: 600, // Adjust the width of the animation
       height: 600, // Adjust the height of the animation
     },
+    textContainer: {
+      marginTop: -150, // Increase the top margin to move the text higher up
+    },
     text: {
-      fontSize: 24, // Adjust the font size as needed
-      marginTop: 12, // Adjust the spacing between animation and text
+      fontSize: 60,
+      fontWeight: '500',
     },
   });
-  
-  
+
 function LoadingScreen({ navigation }) {
-    
     return (
         <View style={styles.container}>
           <View style={styles.animationContainer}>
@@ -37,7 +39,9 @@ function LoadingScreen({ navigation }) {
               speed={2.0}
             />
           </View>
-          <Text style={styles.text}>Plantly</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Plantly</Text>
+          </View>
         </View>
       );
 }

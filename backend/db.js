@@ -157,6 +157,36 @@ app.post("/addUserPlant", async (req, res) => {
   }
 });
 
+app.delete("/removeUserPlant", async (req, res) => {
+  try {
+    // Get the user's ID from the token
+    const token = req.headers.token;
+    const decodedUsername = jwt.decode(token);
+    const userId = decodedUsername["userId"];
+
+    const commonNameToRemove = req.body.commonName; // The Common Name of the plant to be removed
+
+    const updatedUser = await User.findOneAndUpdate(
+      { username: userId },
+      { $pull: { plants: { "Common Name": commonNameToRemove } } },
+      { new: true }
+    );
+
+    if (updatedUser) {
+      console.log("Updated User:", updatedUser);
+      res.status(200).json(updatedUser);
+    } else {
+      console.log("No matching user found.");
+      res.status(404).json({ error: "User not found." });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while removing the plant." });
+  }
+});
+
 // Ensure the database is connected before starting the server
 connectDB()
   .then(() => {

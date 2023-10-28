@@ -18,17 +18,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   background: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     width,
     height,
     opacity: 0.5,
-    backgroundColor: 'transparent',  // optional
-    transform: [{ scale: 1.5 }]
+    backgroundColor: "transparent", // optional
+    transform: [{ scale: 1.5 }],
   },
   titleText: {
     fontSize: 40,
@@ -43,6 +43,14 @@ const styles = StyleSheet.create({
     width: 332,
     textAlign: "center",
     marginBottom: 70,
+  },
+  clickableText: {
+    fontSize: 20,
+    fontWeight: "600",
+    width: 332,
+    textAlign: "center",
+    marginBottom: 10,
+    color: "#59A475",
   },
   input: {
     width: 332,
@@ -75,10 +83,10 @@ function WelcomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-        <LottieView
+      <LottieView
         source={require("../assets/LeavesFallingLottie.json")}
         style={styles.background}
-        speed={.7}
+        speed={0.7}
         autoPlay
         loop
       />
@@ -124,11 +132,12 @@ function WelcomeScreen({ navigation }) {
       >
         <Text style={styles.loginText}>Log In</Text>
       </TouchableOpacity>
-      <Text style={styles.text}>New to Plantly? Create Account</Text>
-
-      {/* Create Account button with navigation to SignupScreen */}
-      <Button title="Create Account" onPress={() => navigation.navigate("Signup")} />
-      <Button title="Go to Main" onPress={() => navigation.navigate("Main")} />
+      <Text style={styles.text}>
+        New to Plantly?{" "}
+        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+          <Text style={styles.clickableText}>Create Account</Text>
+        </TouchableOpacity>
+      </Text>
     </View>
   );
 }

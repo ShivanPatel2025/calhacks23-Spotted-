@@ -28,6 +28,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
+  clickableText: {
+    fontSize: 20,
+    fontWeight: "600",
+    width: 332,
+    textAlign: "center",
+    marginBottom: 10,
+    color: "#59A475",
+  },
   input: {
     width: 332,
     height: 60,
@@ -107,8 +115,13 @@ function SignupScreen({ navigation }) {
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupText}>Sign Up</Text>
       </TouchableOpacity>
-      <Text style={styles.text}>Already have an account? Log In</Text>
-      <Button title="Go to Main" onPress={() => navigation.navigate("Main")} />
+
+      <Text style={styles.text}>
+        Already have an account?{" "}
+        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
+          <Text style={styles.clickableText}>Log In</Text>
+        </TouchableOpacity>
+      </Text>
     </View>
   );
 }
