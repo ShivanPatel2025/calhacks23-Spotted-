@@ -188,6 +188,28 @@ app.delete("/removeUserPlant", async (req, res) => {
   }
 });
 
+app.get("/getUserUsername", async (req, res) => {
+  try {
+    // Decode the token to get the username
+    const token = req.headers.token;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const username = decoded.userId;
+    console.log("Username!:", username);
+
+    // Use the username to get the user details
+    const user = await User.findOne({ username: username });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // Return the user's username
+    res.status(200).json({ username: user.username });
+  } catch (error) {
+    console.error("Error fetching user's username:", error);
+    res.status(500).json({ error: "Error fetching user's username." });
+  }
+});
 
 app.get("/getUserPlants", async (req, res) => {
   try {

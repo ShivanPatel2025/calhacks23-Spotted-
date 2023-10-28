@@ -31,6 +31,7 @@ function MainTabs() {
 
           return <Image source={iconSource} style={{ width: size, height: size, tintColor: color }} />;
         },
+        tabBarLabel: () => null,
       })}
       tabBarOptions={{
         activeTintColor: '#B5DCAB',
