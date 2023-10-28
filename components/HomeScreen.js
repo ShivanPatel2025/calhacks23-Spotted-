@@ -17,9 +17,7 @@ function HomeScreen({ navigation }) {
   const [wateringFrequency, setWateringFrequency] = useState(null);
   const fetchWateringFrequency = async () => {
     try {
-      const response = await fetch(
-        "http://192.168.1.44:3000/getPlant"
-      );
+      const response = await fetch("http://192.168.1.44:3000/getPlant");
       if (!response.ok) {
         console.error(
           "HTTP error! Status: ",

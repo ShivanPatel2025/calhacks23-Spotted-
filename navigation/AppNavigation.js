@@ -7,6 +7,7 @@ import DetailsScreen from "../components/DetailsScreen.js";
 import PlantsScreen from "../components/PlantsScreen.js";
 import LoadingScreen from "../components/LoadingScreen.js";
 import WelcomeScreen from '../components/WelcomeScreen.js';
+import SignupScreen from "../components/SignupScreen.js";
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ function AppNavigation() {
       <Stack.Screen name="Plants" component={PlantsScreen} />
       <Stack.Screen name="Loading" component={LoadingScreen} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
   );
 }

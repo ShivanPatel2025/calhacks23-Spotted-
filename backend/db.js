@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const PORT = process.env.PORT || 3000; // Use the PORT environment variable if available
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 // Enable CORS
 app.use(cors());
@@ -18,6 +20,13 @@ const plantSchema = new mongoose.Schema({
   "Sunlight Preference": String,
 });
 const Plant = new mongoose.model("plants", plantSchema);
+
+// User Schema
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+});
+const User = mongoose.model("users", userSchema);
 
 const dbURI = process.env.MONGODB_URI;
 
@@ -40,6 +49,39 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Welcome to Plantly API"); // You can customize the message
+});
+
+// Register a new user
+app.post("/signup", async (req, res) => {
+  const { email, password } = req.body;
+  // Hash the password using bcrypt
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = new User({
+    email,
+    password: hashedPassword,
+  });
+  try {
+    const user = await newUser.save();
+    res.status(201).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error while signing up." });
+  }
+});
+
+// User login
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(401).json({ error: "User not found." });
+  }
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({ error: "Invalid password." });
+  }
+  const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
+  res.status(200).json({ token });
 });
 
 // Get first plant in the database
