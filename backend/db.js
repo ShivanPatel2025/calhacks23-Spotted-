@@ -26,6 +26,16 @@ const userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
+  plants: [
+    {
+      "Common Name": String,
+      "Display Name": String,
+      "Age": Number,
+      // "Scientific Name": String,
+      // "Watering Frequency": String,
+      // "Sunlight Preference": String,
+    },
+  ],
 });
 const User = mongoose.model("users", userSchema);
 
@@ -94,7 +104,7 @@ app.post("/login", async (req, res) => {
   if (!isPasswordValid) {
     return res.status(401).json({ error: "Invalid password." });
   }
-  const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
+  const token = jwt.sign({ userId: user.username }, process.env.SECRET_KEY);
   res.status(200).json({ token });
 });
 
@@ -110,22 +120,31 @@ app.get("/getPlant", async (req, res) => {
 });
 
 // push new plant into database
-app.post("/addPlant", async (req, res) => {
-  const data = {
-    "Common Name": req.body["Common Name"],
-    "Scientific Name": req.body["Scientific Name"],
-    "Watering Frequency": req.body["Watering Frequency"],
-    "Sunlight Preference": req.body["Sunlight Preference"],
-  };
+app.post("/addUserPlant", async (req, res) => {
   try {
-    const result = await Plant.insertMany([data]);
-    res.status(201).json(result[0]); // Respond with the inserted data or a success message.
-    console.log(result);
+  // Get the user's ID from the token (you need to implement this)
+  const token = req.headers.token; 
+  const decodedusername = jwt.decode(token);
+  const userId = decodedusername["userId"];
+
+  // Create a new plant object
+ const newPlant = {
+   "Common Name": req.body.commonName,
+   "Display Name": req.body.displayName,
+   Age: req.body.age,
+ };
+
+  const updatedUser = await User.findOneAndUpdate({ username: userId }, { $push: { plants: newPlant } }, { new: true });
+    if (updatedUser) {
+      console.log("Updated User:", updatedUser);
+      res.status(200).json(updatedUser);
+    } else {
+      console.log("No matching user found.");
+      res.status(404).json({ error: "User not found." });
+    }
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while adding the plant." }); // Respond with an error message.
+    console.error("Error:", error);
+    res.status(500).json({ error: "An error occurred while adding the plant." });
   }
 });
 

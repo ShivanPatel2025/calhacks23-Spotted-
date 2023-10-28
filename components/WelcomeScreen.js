@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get('window');
 
@@ -106,12 +107,13 @@ function WelcomeScreen({ navigation }) {
             body: JSON.stringify({ email: userEmail, password }),
           })
             .then((response) => response.json())
-            .then((data) => {
+            .then(async (data) => {
               if (data.error) {
                 console.error(data.error);
               } else {
-                // If login is successful, navigate to the home screen
-                navigation.navigate("Main"); // Replace 'Home' with the actual name of your home screen
+                const token = data.token;
+                await AsyncStorage.setItem("userToken", token);
+                navigation.navigate("Main");
               }
             })
             .catch((error) => {
