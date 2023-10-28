@@ -4,9 +4,15 @@ import {
   Text,
   TextInput,
   Button,
-  TouchableOpacity,
+  TouchableOpacity, 
   StyleSheet,
+  Dimensions,
 } from "react-native";
+import LottieView from "lottie-react-native";
+
+const { width, height } = Dimensions.get('window');
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +34,16 @@ const styles = StyleSheet.create({
     width: 332,
     textAlign: "center",
     marginBottom: 10,
+  },
+  background: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width,
+    height,
+    opacity: 0.5,
+    backgroundColor: "transparent", // optional
+    transform: [{ scale: 1.5 }],
   },
   clickableText: {
     fontSize: 20,
@@ -93,6 +109,13 @@ function SignupScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <LottieView
+        source={require("../assets/LeavesFallingLottie.json")}
+        style={styles.background}
+        speed={0.7}
+        autoPlay
+        loop
+      />
       <Text style={styles.titleText}>Sign Up for Plantly</Text>
       <TextInput
         style={styles.input}
