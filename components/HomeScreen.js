@@ -1,17 +1,29 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, Image } from "react-native";
+
+import { Dimensions } from 'react-native';
+
+// Get the screen width
+const screenWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#c8dbba", // Set the background color here
   },
   text: {
     fontSize: 20,
     marginBottom: 20,
   },
+  image: {
+    width: 500,  // You can set your desired width
+    height: 500,
+    marginBottom: -200,
+  },
 });
+
 
 function HomeScreen({ navigation }) {
   const [wateringFrequency, setWateringFrequency] = useState(null);
@@ -50,6 +62,10 @@ function HomeScreen({ navigation }) {
       <Button
         title="Go to Details"
         onPress={() => navigation.navigate("Details")}
+      />
+      <Image 
+        source={require("../assets/HomeShelvingExpanded.png")} 
+        style={styles.image}
       />
     </View>
   );
