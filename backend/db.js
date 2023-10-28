@@ -86,8 +86,9 @@ app.post("/signup", async (req, res) => {
 
     // If no duplicates found, insert the new user
     const result = await User.insertMany([newUser]);
-    res.status(201).json(result[0]); // Respond with the inserted data or a success message.
     console.log(result);
+    const token = jwt.sign({ userId: user.username }, process.env.SECRET_KEY);
+    res.status(200).json({ token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error while signing up." });
@@ -194,9 +195,10 @@ app.get("/getUserPlants", async (req, res) => {
     const token = req.headers.token;
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     const username = decoded.userId;
+    console.log("Username:", username);
 
     // Use the username to get the user details
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username: username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found." });
