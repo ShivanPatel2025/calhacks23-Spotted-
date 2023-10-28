@@ -27,26 +27,42 @@ const styles = StyleSheet.create({
 
 function HomeScreen({ navigation }) {
   const [wateringFrequency, setWateringFrequency] = useState(null);
-  const fetchWateringFrequency = async () => {
+
+  const getToken = async () => {
     try {
-      const response = await fetch("http://192.168.1.44:3000/getPlant");
-      if (!response.ok) {
-        console.error(
-          "HTTP error! Status: ",
-          response.status,
-          response.statusText
-        );
-        throw new Error(
-          `HTTP error! Status: ${response.status} - ${response.statusText}`
-        );
+      const token = await AsyncStorage.getItem('userToken');
+      if (token !== null) {
+        return token;
       }
-      const data = await response.json();
-      console.log("Data:", data);
-      setWateringFrequency(data["Watering Frequency"]);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching the token", error);
+    }
+  }
+
+  /// Get all plants owned by user
+  const getPlants = async () => {
+    try {
+      const token = await getToken(); // Using the getToken function you've already provided
+  
+      const response = await fetch("http://192.168.1.44:3000/getUserPlants", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "token": token, // Pass the token in headers for server to decode
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log("User's Plants:", data.plants);
+    } catch (error) {
+      console.error("Error fetching user's plants:", error);
     }
   };
+  
 
   return (
     <View style={styles.container}>

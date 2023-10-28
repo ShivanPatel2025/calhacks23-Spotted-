@@ -187,6 +187,30 @@ app.delete("/removeUserPlant", async (req, res) => {
   }
 });
 
+
+app.get("/getUserPlants", async (req, res) => {
+  try {
+    // Decode the token to get the username
+    const token = req.headers.token;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const username = decoded.userId;
+
+    // Use the username to get the user details
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // Return the plants field of the user
+    res.status(200).json({ plants: user.plants });
+  } catch (error) {
+    console.error("Error fetching user's plants:", error);
+    res.status(500).json({ error: "Error fetching user's plants." });
+  }
+});
+
+
 // Ensure the database is connected before starting the server
 connectDB()
   .then(() => {
