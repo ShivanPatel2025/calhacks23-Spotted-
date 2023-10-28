@@ -108,7 +108,7 @@ function SignupScreen({ navigation }) {
         <Text style={styles.signupText}>Sign Up</Text>
       </TouchableOpacity>
       <Text style={styles.text}>Already have an account? Log In</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
+      <Button title="Go to Main" onPress={() => navigation.navigate("Main")} />
     </View>
   );
 }

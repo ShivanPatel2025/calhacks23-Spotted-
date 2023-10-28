@@ -111,7 +111,7 @@ function WelcomeScreen({ navigation }) {
                 console.error(data.error);
               } else {
                 // If login is successful, navigate to the home screen
-                navigation.navigate("Home"); // Replace 'Home' with the actual name of your home screen
+                navigation.navigate("Main"); // Replace 'Home' with the actual name of your home screen
               }
             })
             .catch((error) => {
@@ -126,7 +126,7 @@ function WelcomeScreen({ navigation }) {
 
       {/* Create Account button with navigation to SignupScreen */}
       <Button title="Create Account" onPress={() => navigation.navigate("Signup")} />
-      <Button title="Go to Home" onPress={() => navigation.navigate("Main")} />
+      <Button title="Go to Main" onPress={() => navigation.navigate("Main")} />
     </View>
   );
 }
