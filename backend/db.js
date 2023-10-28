@@ -24,6 +24,7 @@ const Plant = new mongoose.model("plants", plantSchema);
 // User Schema
 const userSchema = new mongoose.Schema({
   username: String,
+  email: String,
   password: String,
 });
 const User = mongoose.model("users", userSchema);
@@ -53,16 +54,16 @@ app.get("/", (req, res) => {
 
 // Register a new user
 app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-  // Hash the password using bcrypt
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new User({
-    email,
-    password: hashedPassword,
-  });
+  const newUser = {
+    username: req.body["username"],
+    email: req.body["email"],
+    password: await bcrypt.hash(req.body["password"], 10),
+  };
+
   try {
-    const user = await newUser.save();
-    res.status(201).json(user);
+    const result = await User.insertMany([newUser]);
+    res.status(201).json(result[0]); // Respond with the inserted data or a success message.
+    console.log(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error while signing up." });

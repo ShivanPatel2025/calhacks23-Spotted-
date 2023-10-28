@@ -65,7 +65,7 @@ function SignupScreen({ navigation }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, email: userEmail, password }),
+      body: JSON.stringify({ username: username, email: userEmail, password }),
     })
       .then((response) => response.json())
       .then((data) => {
