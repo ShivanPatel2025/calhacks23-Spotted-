@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
   container: {
@@ -78,6 +79,46 @@ function PlantsScreen({ navigation }) {
     require('../assets/plant-8.png'),
     require('../assets/plant-9.png'),
   ];
+
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (token !== null) {
+        return token;
+      }
+    } catch (error) {
+      console.error("Error fetching the token", error);
+    }
+  }
+
+  const handlePlantSubmission = async () => {
+    // Create an object with the user's plant information
+    const userPlant = {
+      commonName,
+      displayName: nickname,
+      age: parseInt(daysOld),
+    };
+
+    const token = await getToken();
+    // Send a POST request to add the user's plant
+    fetch("http://192.168.1.44:3000/addUserPlant", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "token": token,
+      },
+      body: JSON.stringify(userPlant),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Plant added:", data);
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle errors here
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -117,7 +158,7 @@ function PlantsScreen({ navigation }) {
           <Button
             title="Submit"
             onPress={() => {
-              console.log("Submitted:", { commonName, nickname, daysOld, selectedIcon });
+              handlePlantSubmission();
             }}
             color="#B5DCAB"
           />
