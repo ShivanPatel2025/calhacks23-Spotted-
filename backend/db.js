@@ -87,7 +87,7 @@ app.post("/signup", async (req, res) => {
     // If no duplicates found, insert the new user
     const result = await User.insertMany([newUser]);
     console.log(result);
-    const token = jwt.sign({ userId: user.username }, process.env.SECRET_KEY);
+    const token = jwt.sign({ userId: newUser.username }, process.env.SECRET_KEY);
     res.status(200).json({ token });
   } catch (error) {
     console.error(error);
